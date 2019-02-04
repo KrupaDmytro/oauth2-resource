@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -49,6 +50,17 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
             "4T7elWDV6biBrcHoUTAyKFbq4SG17qBvyN9T8rvpezy0o92mEI9XSelUQ7hL2zDv\n" +
             "dOxl43wjs6Lb1iS+TZtSPqmxF9poIt1DjLNiWw4uAjFBsmFNRxP/\n" +
             "-----END RSA PRIVATE KEY-----";
+
+    private String publicKey = "-----BEGIN PUBLIC KEY-----\n"+
+            "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyHZsp7JTQy/Ts9/k2Iyq\n"+
+            "Hn1hEcxAK/Y/28LjaiOcRhpv1aH86qhw3ZyzGAHPE5qmcTljnrK+i+eXADU/pNZ1\n"+
+            "IBF1CyWCxo2whb1Q+hdxARLeBXPGoYe9qChjEq7JBxxQ1T9RHcbn36wHTPVUvn61\n"+
+            "zzaFcndq93uqlAkao5lFUR+HuaFe56wPEdUjz9/UkyMnIP+wlB6025nr/OH8dpLr\n"+
+            "Jde60xyT8lxZlcDmiBscP0+CRcQLsj4nXqxSz3nodD8Nd17GmwDGdSOh2Gkm3wz7\n"+
+            "igCn6s9ZmsZadryIrjBINLY/HVPfv3SefCbmT2q9RAoswTZUsZidFnbVKIXwv4R+\n"+
+            "BwIDAQAB\n"+
+            "-----END PUBLIC KEY-----";
+
     @Override
     public void configure(ResourceServerSecurityConfigurer config) {
         config.tokenServices(tokenServices());
@@ -63,6 +75,7 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
     public JwtAccessTokenConverter accessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
         converter.setSigningKey(privateKey);
+        converter.setVerifierKey(publicKey);
         return converter;
     }
 
