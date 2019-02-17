@@ -4,7 +4,7 @@ public class Bar {
     private long id;
     private String name;
 
-    public Bar() {
+    public Bar()     {
         super();
     }
 

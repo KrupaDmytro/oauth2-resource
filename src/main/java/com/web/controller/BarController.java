@@ -1,6 +1,7 @@
 package com.web.controller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -17,21 +18,23 @@ public class BarController {
     }
 
     // API - read
-    @PreAuthorize("#oauth2.hasScope('bar') or #oauth2.hasScope('read')")
+    @PreAuthorize("#oauth2.hasScope('read')")
     @RequestMapping(method = RequestMethod.GET, value = "/bars/{id}")
     @ResponseBody
     public Bar findById(@PathVariable final long id) {
-        return new Bar(Long.parseLong(randomNumeric(2)), randomAlphabetic(4));
+        return new Bar(14, "test");
     }
 
     // API - write
-    @PreAuthorize("#oauth2.hasScope('bar') and #oauth2.hasScope('write') and hasRole('ROLE_ADMIN')")
-    @RequestMapping(method = RequestMethod.POST, value = "/bars")
+    @PreAuthorize("#oauth2.hasScope('write')")
+    @RequestMapping(method = RequestMethod.POST, value = "/bars" , consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public Bar create(@RequestBody final Bar bar) {
-        bar.setId(Long.parseLong(randomNumeric(2)));
+        bar.setId(2);
         return bar;
     }
+
+
 
 }
